@@ -19,7 +19,7 @@ The beautiful canyon colours are taken from [kevinsblake/NatParksPalettes](https
 * Add Category 2 information.
 
 ## Example figures
-Activity types removed for privacy.
-
+### Number of hours spent on different activities per week (legend removed for privacy).
 ![Activites per Week](plots/activity_times_week.png)
+### Works per minute for books read. The shaded area helps distinguish books currently read from finished books.
 ![Words per Minute](plots/reading_wpm.png)
