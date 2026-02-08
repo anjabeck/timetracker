@@ -1,5 +1,3 @@
-# https://github.com/kevinsblake/NatParksPalettes/blob/main/R/NatParksPalettes.R
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,6 +8,7 @@ import argparse
 logging.getLogger('matplotlib.font_manager').disabled = True
 
 bryce_canyon_colours = [
+    # https://github.com/kevinsblake/NatParksPalettes/blob/main/R/NatParksPalettes.R
     "#882314", "#C0532B", "#CF932C", "#674D53", "#8C86A0", "#724438", "#D5AB85",
     "#3F4330", "#8E7E3C", "#521E0F", "#9C593E", "#DDA569", "#2A4866", "#6592B0"
 ]
@@ -43,7 +42,7 @@ def test_smooth_box():
     plt.title('Smooth Box Function')
     plt.xlabel('x')
     plt.ylabel('f(x)')
-    plt.savefig('smooth_box_example.pdf', bbox_inches='tight')
+    plt.savefig('plots/smooth_box_example.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -53,7 +52,8 @@ def process_data():
         'Category': str,
         'Category 2': str,
     }
-    sheet_id = '1lMJMldi_Y6b7e8hwN8I_TzUCNd-gGFgTbQO-aszVGoQ'
+    with open('sheets_id.txt', 'r') as f:
+        sheets_id = f.read().strip()
 
     df = None
     found_weeks = []
@@ -61,7 +61,7 @@ def process_data():
     for week in range(1, args.maxweeks + 1):
         pbar.update(1)
         try:
-            dfweek = pd.read_excel(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx", sheet_name=f'Week {week}', dtype=dtypes, engine='openpyxl')
+            dfweek = pd.read_excel(f"https://docs.google.com/spreadsheets/d/{sheets_id}/export?format=xlsx", sheet_name=f'Week {week}', dtype=dtypes, engine='openpyxl')
         except Exception:
             continue
         found_weeks.append(week)
@@ -133,7 +133,7 @@ def plot_total(df, norm, label, out_name):
             plt.text(i, height+0.02*plt.ylim()[1], cat, ha='center', va='bottom', fontsize=10, rotation=90, color=sorted_colors[i])
     plt.xticks([])
     plt.ylabel(label)
-    plt.savefig(out_name, bbox_inches='tight')
+    plt.savefig(oplots/ut_name, bbox_inches='tight')
     plt.close()
     return {cat: height for cat, height in zip(sorted_cats, sorted_heights)}
 
@@ -175,7 +175,7 @@ def plot_stacked_daily(df, order=None):
     # Invert legend order to match stacking
     handles, labels = plt.gca().get_legend_handles_labels()
     plt.legend(handles[::-1], labels[::-1])
-    plt.savefig('activity_times_day.pdf', bbox_inches='tight')
+    plt.savefig('plots/activity_times_day.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -216,7 +216,7 @@ def plot_stacked_weekly(df, order=None):
     plt.xlim(0.5, 7.5)
     plt.ylim(0, None)
     plt.grid()
-    plt.savefig('activity_times_week.pdf', bbox_inches='tight')
+    plt.savefig('plots/activity_times_week.pdf', bbox_inches='tight')
     plt.close()
 
 
@@ -265,7 +265,7 @@ def plot_reading_wpm(df):
     plt.xticks([])
     plt.ylim(0, min(np.max(wpms) * 1.2, 275))
     plt.title('Words per Minute')
-    plt.savefig('reading_wpm.pdf', bbox_inches='tight')
+    plt.savefig('plots/reading_wpm.pdf', bbox_inches='tight')
     plt.close()
 
 
