@@ -21,5 +21,5 @@ The beautiful canyon colours are taken from [kevinsblake/NatParksPalettes](https
 ## Example figures
 Activity types removed for privacy.
 
-![](plots/activity_times_week.pdf)
-![](plots/reading_wpm.pdf)
+![Activites per Week](plots/activity_times_week.pdf)
+![Words per Minute](plots/reading_wpm.pdf)
