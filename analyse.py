@@ -5,7 +5,11 @@ import matplotlib.image as mpimg
 import tqdm
 import logging
 import argparse
+import os
 logging.getLogger('matplotlib.font_manager').disabled = True
+
+if not os.path.exists('plots'):
+    os.makedirs('plots')
 
 bryce_canyon_colours = [
     # https://github.com/kevinsblake/NatParksPalettes/blob/main/R/NatParksPalettes.R
@@ -43,6 +47,7 @@ def test_smooth_box():
     plt.xlabel('x')
     plt.ylabel('f(x)')
     plt.savefig('plots/smooth_box_example.pdf', bbox_inches='tight')
+    plt.savefig('plots/smooth_box_example.png', bbox_inches='tight')
     plt.close()
 
 
@@ -133,7 +138,8 @@ def plot_total(df, norm, label, out_name):
             plt.text(i, height+0.02*plt.ylim()[1], cat, ha='center', va='bottom', fontsize=10, rotation=90, color=sorted_colors[i])
     plt.xticks([])
     plt.ylabel(label)
-    plt.savefig(oplots/ut_name, bbox_inches='tight')
+    plt.savefig(f"plots/{out_name}.pdf", bbox_inches='tight')
+    plt.savefig(f"plots/{out_name}.png", bbox_inches='tight')
     plt.close()
     return {cat: height for cat, height in zip(sorted_cats, sorted_heights)}
 
@@ -176,6 +182,7 @@ def plot_stacked_daily(df, order=None):
     handles, labels = plt.gca().get_legend_handles_labels()
     plt.legend(handles[::-1], labels[::-1])
     plt.savefig('plots/activity_times_day.pdf', bbox_inches='tight')
+    plt.savefig('plots/activity_times_day.png', bbox_inches='tight')
     plt.close()
 
 
@@ -217,6 +224,7 @@ def plot_stacked_weekly(df, order=None):
     plt.ylim(0, None)
     plt.grid()
     plt.savefig('plots/activity_times_week.pdf', bbox_inches='tight')
+    plt.savefig('plots/activity_times_week.png', bbox_inches='tight')
     plt.close()
 
 
@@ -266,6 +274,7 @@ def plot_reading_wpm(df):
     plt.ylim(0, min(np.max(wpms) * 1.2, 275))
     plt.title('Words per Minute')
     plt.savefig('plots/reading_wpm.pdf', bbox_inches='tight')
+    plt.savefig('plots/reading_wpm.png', bbox_inches='tight')
     plt.close()
 
 
@@ -274,10 +283,10 @@ test_smooth_box()
 df = process_data()
 ordered = plot_total(df, norm=3600,
                      label='Total number of hours',
-                     out_name='category_durations.pdf')
+                     out_name='category_durations')
 plot_total(df, norm=60*((df['Date'].max() - df['Date'].min()).days + 1),
            label='Average number of minutes per day',
-           out_name='category_durations_dailyaverage.pdf')
+           out_name='category_durations_dailyaverage')
 
 plot_stacked_daily(df, order=ordered)
 plot_stacked_weekly(df, order=ordered)
